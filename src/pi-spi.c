@@ -31,11 +31,11 @@
 // Function Definitions                                                       //
 ////////////////////////////////////////////////////////////////////////////////
 
-pispi_init(struct spidev *  spi,
-           char *           dev,
-           uint32_t         mode,
-           uint8_t          bits,
-           uint32_t         freq)
+int pispi_open(struct spidev *  spi,
+               char *           dev,
+               uint32_t         mode,
+               uint8_t          bits,
+               uint32_t         freq)
 {
   int       result;
   uint32_t  new_mode;

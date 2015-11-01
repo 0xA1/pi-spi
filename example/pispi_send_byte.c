@@ -32,9 +32,9 @@ int main(int  argc, char *  argv)
   int            result;
   struct spidev  spi;
 
-  // Initializing the SPI device //
+  // Open the SPI device //
 
-  result = pispi_init(&spi, "/dev/spidev0.1", 0, 8, 20000);
+  result = pispi_open(&spi, "/dev/spidev0.0", 0, 8, 20000);
 
   printf("pispi_init() = %d", result);
 
