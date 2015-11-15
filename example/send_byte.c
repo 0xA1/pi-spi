@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
-//  pispi_send_byte.c                                                         //
+//  send_byte.c                                                               //
 //                                                                            //
 //  Copyright (c) 2015, John Leimon                                           //
 //                                                                            //
@@ -18,25 +18,35 @@
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 #include <stdio.h>
-#include "pi-spi.h"
+#include "spi_driver.h"
 
 void display_usage()
 {
-  printf("Usage: pispi_send_byte [DEVICE_PATH] [BYTE]\n");
-  printf("  BYTE:        Byte to send (in hexidecimal)\n");
+  printf("Usage: c_send_byte [DEVICE_PATH] [BYTE]\n");
   printf("  DEVICE_PATH: Full path to SPI device file.\n");
+  printf("  BYTE:        Byte to send (in hexidecimal)\n");
 }
 
-int main(int  argc, char *  argv)
+int main(int  argc, char *  argv[])
 {
   int            result;
   struct spidev  spi;
+  uint8_t        value;
+
+  // Validate argument count //
+  if (argc < 3) {
+    display_usage();
+    return;
+  }
+
+  // Convert byte parameter to binary //
+  sscanf(argv[2], "%02x", &value);
 
   // Open the SPI device //
 
-  result = pispi_open(&spi, "/dev/spidev0.0", 0, 8, 20000);
+  result = spi_driver_open(&spi, argv[1], 0, 8, 20000);
 
-  printf("pispi_init() = %d", result);
+  printf("spi_init() = %d", result);
 
   switch(result) {
     case SPI_SUCCESS:
@@ -65,20 +75,20 @@ int main(int  argc, char *  argv)
     uint8_t transmit_buffer;
     uint8_t receive_buffer;
 
-    transmit_buffer = 0xA1;
+    transmit_buffer = value;
 
-    result = pispi_transfer(&spi,
-                            &transmit_buffer,
-                            &receive_buffer,
-                            0,
-                            1);
+    result = spi_driver_transfer(&spi,
+                                 &transmit_buffer,
+                                 &receive_buffer,
+                                 0,
+                                 1);
 
-    printf("pispi_transfer() = %d\n", result);
+    printf("spi_transfer() = %d\n", result);
   }
 
   // Close the SPI device //
 
-  pispi_close(&spi);
+  spi_driver_close(&spi);
 
   return 0;
 }

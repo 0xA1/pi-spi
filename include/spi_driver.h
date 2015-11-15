@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
-//  pi-spi.h                                                                  //
+//  spi_driver.h                                                              //
 //                                                                            //
 //  Copyright (c) 2015, John Leimon                                           //
 //                                                                            //
@@ -82,11 +82,11 @@ struct spidev {
    @return        SPI_ERROR_FREQ  Error: Cannot set frequency
    @return        SPI_ERROR_DEV   Error: Cannot open device
 */
-int pispi_open(struct spidev *  spi,
-               char *           dev,
-               uint32_t         mode,
-               uint8_t          bits,
-               uint32_t         freq);
+int spi_driver_open(struct spidev *  spi,
+                    char *           dev,
+                    uint32_t         mode,
+                    uint8_t          bits,
+                    uint32_t         freq);
 
 /*
    @brief  Send and receive some data.
@@ -98,16 +98,16 @@ int pispi_open(struct spidev *  spi,
    @return        SPI_SUCCESS      Operation completed successfully
    @return        SPI_ERROR_XFER   Error: Could not send data
 */
-int pispi_transfer(struct spidev *  spi,
-                   uint8_t *        transmit_buffer,
-                   uint8_t *        receive_buffer,
-                   uint16_t         delay,
-                   size_t           length);
+int spi_driver_transfer(struct spidev *  spi,
+                        uint8_t *        transmit_buffer,
+                        uint8_t *        receive_buffer,
+                        uint16_t         delay,
+                        size_t           length);
 
 /*
    @brief  Close SPI device.
    @param[in,out] spi    Address of a SPI device structure.
 */
-void pispi_close(struct spidev *  spi);
+void spi_driver_close(struct spidev *  spi);
 
 #endif

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
-//  pi-spi.c                                                                  //
+//  spi_driver.c                                                              //
 //                                                                            //
 //  Copyright (c) 2015, John Leimon                                           //
 //                                                                            //
@@ -25,17 +25,17 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/types.h>
-#include "pi-spi.h"
+#include "spi_driver.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions                                                       //
 ////////////////////////////////////////////////////////////////////////////////
 
-int pispi_open(struct spidev *  spi,
-               char *           dev,
-               uint32_t         mode,
-               uint8_t          bits,
-               uint32_t         freq)
+int spi_driver_open(struct spidev *  spi,
+                    char *           dev,
+                    uint32_t         mode,
+                    uint8_t          bits,
+                    uint32_t         freq)
 {
   int       result;
   uint32_t  new_mode;
@@ -78,12 +78,13 @@ int pispi_open(struct spidev *  spi,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
-int pispi_transfer(struct spidev *  spi,
-                   uint8_t *        transmit_buffer,
-                   uint8_t *        receive_buffer,
-                   uint16_t         delay,
-                   size_t           length)
+int spi_driver_transfer(struct spidev *  spi,
+                        uint8_t *        transmit_buffer,
+                        uint8_t *        receive_buffer,
+                        uint16_t         delay,
+                        size_t           length)
 {
   int                      result;
   struct spi_ioc_transfer  envelope;
@@ -120,8 +121,9 @@ int pispi_transfer(struct spidev *  spi,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
-void pispi_close(struct spidev *  spi)
+void spi_driver_close(struct spidev *  spi)
 {
   close(spi->fd);
 }
